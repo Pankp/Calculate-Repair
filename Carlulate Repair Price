@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Υπολογισμός Κόστους Επισκευής</title>
+    <style>
+        body {
+            background-color: #ff7700;
+            color: black;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: black;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .part-cost-box {
+            background-color: #f0f0f0;
+            color: black;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function calculateCost() {
+            const baseCost = parseFloat(document.getElementById("base-cost").value) || 0;
+            const repairType = document.getElementById("repair-type").value;
+
+            let repairCost = 0;
+
+            switch (repairType) {
+                case "screen":
+                    repairCost = 40;
+                    break;
+                case "battery":
+                    repairCost = 30;
+                    break;
+                case "charging-port":
+                    repairCost = 30;
+                    break;
+                case "back-glass":
+                    repairCost = 30;
+                    break;
+                default:
+                    repairCost = 0;
+            }
+
+            const partCostWithVAT = baseCost * 1.24;
+            const totalCostWithVAT = partCostWithVAT + repairCost;
+            const roundedCost = Math.ceil(totalCostWithVAT / 5) * 5;
+
+            document.getElementById("part-cost-vat").innerText = `Κόστος Ανταλλακτικού με ΦΠΑ: €${partCostWithVAT.toFixed(2)}`;
+            document.getElementById("result").innerText = `Τελικό Κόστος Επισκευής: €${roundedCost}`;
+        }
+
+        function clearFields() {
+            document.getElementById("base-cost").value = "";
+            document.getElementById("repair-type").value = "none";
+            document.getElementById("part-cost-vat").innerText = "";
+            document.getElementById("result").innerText = "";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Υπολογισμός Κόστους Επισκευής</h1>
+        <label for="base-cost">Κόστος Ανταλλακτικού χωρίς ΦΠΑ (€):</label>
+        <input type="number" id="base-cost" inputmode="decimal" pattern="[0-9]*" oninput="calculateCost()" placeholder="Π.χ. 100">
+
+        <div class="part-cost-box" id="part-cost-vat"></div>
+
+        <label for="repair-type">Επιλέξτε κατηγορία επισκευής:</label>
+        <select id="repair-type" onchange="calculateCost()">
+            <option value="none">-- Επιλέξτε κατηγορία --</option>
+            <option value="screen">Αλλαγή Οθόνης (+€40 με ΦΠΑ)</option>
+            <option value="battery">Αλλαγή Μπαταρίας (+€30 με ΦΠΑ)</option>
+            <option value="charging-port">Αλλαγή Υποδοχής Φόρτισης (+€30 με ΦΠΑ)</option>
+            <option value="back-glass">Αλλαγή Πίσω Τζάμι (+€30 με ΦΠΑ)</option>
+        </select>
+
+        <div class="result" id="result"></div>
+
+        <button onclick="clearFields()">Καθαρισμός</button>
+    </div>
+</body>
+</html>
