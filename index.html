@@ -30,13 +30,24 @@
             margin: 10px 0;
             font-size: 18px;
         }
+        /* Flexbox για τις επιλογές */
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
         .option {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 15px;
+            margin: 10px;
+            width: 45%; /* Δύο επιλογές στη σειρά */
+            text-align: center;
         }
-        .option input[type="radio"] {
-            margin-right: 10px;
+        .option img {
+            width: 60px;
+            height: 60px;
         }
         .price {
             font-size: 20px;
@@ -64,11 +75,6 @@
         .reset-btn:hover {
             background-color: #333;
         }
-        .image {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-        }
         /* Αυξάνοντας το μέγεθος του πεδίου εισαγωγής τιμής */
         input[type="number"] {
             width: 100%;
@@ -89,28 +95,28 @@
         <label for="price">Τιμή Ανταλλακτικού (χωρίς ΦΠΑ):</label>
         <input type="number" id="price" placeholder="Εισάγετε τιμή" oninput="calculateCost()">
         
-        <div class="option">
-            <input type="radio" id="screen" name="repair" value="40" onclick="calculateCost()">
-            <img src="broken-screen.png" alt="Screen" class="image">
-            <label for="screen">Αλλαγή Οθόνης (+40€)</label>
-        </div>
-
-        <div class="option">
-            <input type="radio" id="battery" name="repair" value="30" onclick="calculateCost()">
-            <img src="battery.png" alt="Battery" class="image">
-            <label for="battery">Αλλαγή Μπαταρίας (+30€)</label>
-        </div>
-
-        <div class="option">
-            <input type="radio" id="chargingPort" name="repair" value="30" onclick="calculateCost()">
-            <img src="charging-port.png" alt="Charging Port" class="image">
-            <label for="chargingPort">Αλλαγή Υποδοχής Φόρτισης (+30€)</label>
-        </div>
-
-        <div class="option">
-            <input type="radio" id="backGlass" name="repair" value="30" onclick="calculateCost()">
-            <img src="broken-glass.png" alt="Back Glass" class="image">
-            <label for="backGlass">Αλλαγή Πίσω Τζάμι (+30€)</label>
+        <!-- Flexbox για τις επιλογές -->
+        <div class="options">
+            <div class="option">
+                <input type="radio" id="screen" name="repair" value="40" onclick="calculateCost()">
+                <img src="broken-screen.png" alt="Οθόνη">
+                <label for="screen">Αλλαγή Οθόνης (+40€)</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="battery" name="repair" value="30" onclick="calculateCost()">
+                <img src="battery.png" alt="Μπαταρία">
+                <label for="battery">Αλλαγή Μπαταρίας (+30€)</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="chargingPort" name="repair" value="30" onclick="calculateCost()">
+                <img src="charging-port.png" alt="Υποδοχή Φόρτισης">
+                <label for="chargingPort">Αλλαγή Υποδοχής Φόρτισης (+30€)</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="backGlass" name="repair" value="30" onclick="calculateCost()">
+                <img src="broken-glass.png" alt="Πίσω Τζάμι">
+                <label for="backGlass">Αλλαγή Πίσω Τζάμι (+30€)</label>
+            </div>
         </div>
 
         <div class="price">
