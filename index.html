@@ -3,133 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Υπολογισμός Κόστους Επισκευής</title>
+    <title>Υπολογιστής Κόστους Επισκευής</title>
     <style>
         body {
-            background-color: #ff7700;
-            color: black;
+            background-color: #FF7F00; /* έντονο πορτοκαλί φόντο */
+            color: white;
             font-family: Arial, sans-serif;
-            text-align: center;
+            margin: 0;
             padding: 20px;
         }
-
         h1 {
-            color: black;
-            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
-
         .container {
-            max-width: 500px;
-            margin: auto;
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #333;
             padding: 20px;
-            background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-
         label {
             display: block;
             margin: 10px 0;
-            font-weight: bold;
+            font-size: 18px;
         }
-
-        input[type="number"], select {
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .price {
+            font-size: 20px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .output {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .reset-btn {
+            display: block;
             width: 100%;
             padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .part-cost-box {
-            background-color: #f0f0f0;
-            color: black;
-            padding: 8px;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        button {
-            background-color: black;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #444;
-        }
-
-        .result {
             margin-top: 20px;
+            background-color: #444;
+            color: white;
             font-size: 18px;
-            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+        }
+        .reset-btn:hover {
+            background-color: #333;
+        }
+        .image {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
         }
     </style>
-    <script>
-        function calculateCost() {
-            const baseCost = parseFloat(document.getElementById("base-cost").value) || 0;
-            const repairType = document.getElementById("repair-type").value;
-
-            let repairCost = 0;
-
-            switch (repairType) {
-                case "screen":
-                    repairCost = 40;
-                    break;
-                case "battery":
-                    repairCost = 30;
-                    break;
-                case "charging-port":
-                    repairCost = 30;
-                    break;
-                case "back-glass":
-                    repairCost = 30;
-                    break;
-                default:
-                    repairCost = 0;
-            }
-
-            const partCostWithVAT = baseCost * 1.24;
-            const totalCostWithVAT = partCostWithVAT + repairCost;
-            const roundedCost = Math.ceil(totalCostWithVAT / 5) * 5;
-
-            document.getElementById("part-cost-vat").innerText = `Κόστος Ανταλλακτικού με ΦΠΑ: €${partCostWithVAT.toFixed(2)}`;
-            document.getElementById("result").innerText = `Τελικό Κόστος Επισκευής: €${roundedCost}`;
-        }
-
-        function clearFields() {
-            document.getElementById("base-cost").value = "";
-            document.getElementById("repair-type").value = "none";
-            document.getElementById("part-cost-vat").innerText = "";
-            document.getElementById("result").innerText = "";
-        }
-    </script>
 </head>
 <body>
+
+    <h1>Υπολογιστής Κόστους Επισκευής</h1>
     <div class="container">
-        <h1>Υπολογισμός Κόστους Επισκευής</h1>
-        <label for="base-cost">Κόστος Ανταλλακτικού χωρίς ΦΠΑ (€):</label>
-        <input type="number" id="base-cost" inputmode="decimal" pattern="[0-9]*" oninput="calculateCost()" placeholder="Π.χ. 100">
+        <label for="price">Τιμή Ανταλλακτικού (χωρίς ΦΠΑ):</label>
+        <input type="number" id="price" placeholder="Εισάγετε τιμή" oninput="calculateCost()">
+        
+        <div class="option">
+            <input type="radio" id="screen" name="repair" value="40" onclick="calculateCost()">
+            <img src="broken-screen.png" alt="Screen" class="image">
+            <label for="screen">Αλλαγή Οθόνης (+40€)</label>
+        </div>
 
-        <div class="part-cost-box" id="part-cost-vat"></div>
+        <div class="option">
+            <input type="radio" id="battery" name="repair" value="30" onclick="calculateCost()">
+            <img src="battery.png" alt="Battery" class="image">
+            <label for="battery">Αλλαγή Μπαταρίας (+30€)</label>
+        </div>
 
-        <label for="repair-type">Επιλέξτε κατηγορία επισκευής:</label>
-        <select id="repair-type" onchange="calculateCost()">
-            <option value="none">-- Επιλέξτε κατηγορία --</option>
-            <option value="screen">Αλλαγή Οθόνης (+€40 με ΦΠΑ)</option>
-            <option value="battery">Αλλαγή Μπαταρίας (+€30 με ΦΠΑ)</option>
-            <option value="charging-port">Αλλαγή Υποδοχής Φόρτισης (+€30 με ΦΠΑ)</option>
-            <option value="back-glass">Αλλαγή Πίσω Τζάμι (+€30 με ΦΠΑ)</option>
-        </select>
+        <div class="option">
+            <input type="radio" id="chargingPort" name="repair" value="30" onclick="calculateCost()">
+            <img src="charging-port.png" alt="Charging Port" class="image">
+            <label for="chargingPort">Αλλαγή Υποδοχής Φόρτισης (+30€)</label>
+        </div>
 
-        <div class="result" id="result"></div>
+        <div class="option">
+            <input type="radio" id="backGlass" name="repair" value="30" onclick="calculateCost()">
+            <img src="broken-glass.png" alt="Back Glass" class="image">
+            <label for="backGlass">Αλλαγή Πίσω Τζάμι (+30€)</label>
+        </div>
 
-        <button onclick="clearFields()">Καθαρισμός</button>
+        <div class="price">
+            <p>Τιμή Ανταλλακτικού με ΦΠΑ: <span id="totalPrice">0</span>€</p>
+        </div>
+
+        <div class="output" id="finalCost">
+            Τελική Τιμή: 0€
+        </div>
+
+        <button class="reset-btn" onclick="resetForm()">Επαναφορά</button>
     </div>
+
+    <script>
+        function calculateCost() {
+            const priceInput = document.getElementById('price').value;
+            const selectedRepair = document.querySelector('input[name="repair"]:checked');
+            
+            if (priceInput && selectedRepair) {
+                const priceWithoutVAT = parseFloat(priceInput);
+                const repairCost = parseFloat(selectedRepair.value);
+                const priceWithVAT = priceWithoutVAT * 1.24;
+                const totalPrice = priceWithVAT + repairCost;
+                const roundedPrice = Math.ceil(totalPrice / 5) * 5;
+
+                document.getElementById('totalPrice').innerText = roundedPrice.toFixed(2);
+                document.getElementById('finalCost').innerText = `Τελική Τιμή: ${roundedPrice.toFixed(2)}€`;
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('price').value = '';
+            document.querySelector('input[name="repair"]:checked').checked = false;
+            document.getElementById('totalPrice').innerText = '0';
+            document.getElementById('finalCost').innerText = 'Τελική Τιμή: 0€';
+        }
+    </script>
+
 </body>
 </html>
