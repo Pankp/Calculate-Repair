@@ -34,7 +34,7 @@
         .options {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
+            justify-content: space-evenly;
             margin-bottom: 20px;
         }
         .option {
@@ -42,12 +42,21 @@
             flex-direction: column;
             align-items: center;
             margin: 10px;
-            width: 45%; /* Δύο επιλογές στη σειρά */
+            width: 40%; /* Ρυθμίζουμε το πλάτος των επιλογών σε 40% */
             text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            background-color: #444; /* Default background color */
         }
         .option img {
-            width: 60px;
-            height: 60px;
+            width: 40px; /* Μικρότερα εικονίδια */
+            height: 40px;
+            margin-bottom: 10px;
+        }
+        .option.selected {
+            background-color: #222; /* Μαύρο φόντο για την επιλεγμένη επιλογή */
         }
         .price {
             font-size: 20px;
@@ -75,9 +84,9 @@
         .reset-btn:hover {
             background-color: #333;
         }
-        /* Αυξάνοντας το μέγεθος του πεδίου εισαγωγής τιμής */
+        /* Αυξάνοντας το μέγεθος του πεδίου εισαγωγής τιμής και κεντράρισμα */
         input[type="number"] {
-            width: 100%;
+            width: 66%; /* 2/3 του πλάτους */
             padding: 15px;
             font-size: 18px;
             margin-top: 10px;
@@ -85,6 +94,8 @@
             border: 1px solid #ccc;
             background-color: #fff;
             color: #333;
+            display: block;
+            margin: 20px auto; /* Κεντράρισμα του πεδίου */
         }
     </style>
 </head>
@@ -97,25 +108,23 @@
         
         <!-- Flexbox για τις επιλογές -->
         <div class="options">
-            <div class="option">
-                <input type="radio" id="screen" name="repair" value="40" onclick="calculateCost()">
+            <!-- Επάνω σειρά -->
+            <div class="option" onclick="selectRepair('screen', 40, this)">
                 <img src="broken-screen.png" alt="Οθόνη">
-                <label for="screen">Αλλαγή Οθόνης (+40€)</label>
+                <label>Αλλαγή Οθόνης (+40€)</label>
             </div>
-            <div class="option">
-                <input type="radio" id="battery" name="repair" value="30" onclick="calculateCost()">
+            <div class="option" onclick="selectRepair('battery', 30, this)">
                 <img src="battery.png" alt="Μπαταρία">
-                <label for="battery">Αλλαγή Μπαταρίας (+30€)</label>
+                <label>Αλλαγή Μπαταρίας (+30€)</label>
             </div>
-            <div class="option">
-                <input type="radio" id="chargingPort" name="repair" value="30" onclick="calculateCost()">
+            <!-- Κάτω σειρά -->
+            <div class="option" onclick="selectRepair('chargingPort', 30, this)">
                 <img src="charging-port.png" alt="Υποδοχή Φόρτισης">
-                <label for="chargingPort">Αλλαγή Υποδοχής Φόρτισης (+30€)</label>
+                <label>Αλλαγή Υποδοχής Φόρτισης (+30€)</label>
             </div>
-            <div class="option">
-                <input type="radio" id="backGlass" name="repair" value="30" onclick="calculateCost()">
+            <div class="option" onclick="selectRepair('backGlass', 30, this)">
                 <img src="broken-glass.png" alt="Πίσω Τζάμι">
-                <label for="backGlass">Αλλαγή Πίσω Τζάμι (+30€)</label>
+                <label>Αλλαγή Πίσω Τζάμι (+30€)</label>
             </div>
         </div>
 
@@ -131,15 +140,30 @@
     </div>
 
     <script>
+        let selectedRepairValue = 0;
+
+        // Ενημέρωση της επιλογής επισκευής με βάση το κλικ στο εικονίδιο
+        function selectRepair(repairType, cost, element) {
+            // Αφαιρούμε την επιλεγμένη κλάση από τα υπόλοιπα κουτιά
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Προσθέτουμε την επιλεγμένη κλάση στο τρέχον κουτί
+            element.classList.add('selected');
+
+            selectedRepairValue = cost;
+            calculateCost();
+        }
+
         function calculateCost() {
             const priceInput = document.getElementById('price').value;
-            const selectedRepair = document.querySelector('input[name="repair"]:checked');
             
-            if (priceInput && selectedRepair) {
+            if (priceInput && selectedRepairValue) {
                 const priceWithoutVAT = parseFloat(priceInput);
-                const repairCost = parseFloat(selectedRepair.value);
                 const priceWithVAT = priceWithoutVAT * 1.24;
-                const totalPrice = priceWithVAT + repairCost;
+                const totalPrice = priceWithVAT + selectedRepairValue;
                 const roundedPrice = Math.ceil(totalPrice / 5) * 5;
 
                 document.getElementById('totalPrice').innerText = roundedPrice.toFixed(2);
@@ -149,9 +173,15 @@
 
         function resetForm() {
             document.getElementById('price').value = '';
-            document.querySelector('input[name="repair"]:checked').checked = false;
+            selectedRepairValue = 0;
             document.getElementById('totalPrice').innerText = '0';
             document.getElementById('finalCost').innerText = 'Τελική Τιμή: 0€';
+
+            // Αφαιρούμε την επιλεγμένη κλάση από όλα τα κουτιά
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
         }
     </script>
 
