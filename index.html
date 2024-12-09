@@ -32,9 +32,9 @@
         }
         /* Flexbox για τις επιλογές */
         .options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 στήλες */
+            gap: 15px;
             margin-bottom: 20px;
         }
         .option {
@@ -42,7 +42,6 @@
             flex-direction: column;
             align-items: center;
             margin: 10px;
-            width: 40%; /* Ρυθμίζουμε το πλάτος των επιλογών σε 40% */
             text-align: center;
             cursor: pointer;
             padding: 10px;
@@ -51,20 +50,20 @@
             background-color: #444; /* Default background color */
         }
         .option img {
-            width: 25px; /* Μικρότερα εικονίδια (50% μικρότερα από πριν) */
+            width: 25px; /* Εικονίδια 25px */
             height: 25px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .option.selected {
             background-color: #222; /* Μαύρο φόντο για την επιλεγμένη επιλογή */
         }
         .price {
-            font-size: 20px;
+            font-size: 18px;
             margin-top: 10px;
             text-align: center;
         }
         .output {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             margin-top: 20px;
             text-align: center;
@@ -87,8 +86,8 @@
         /* Αυξάνοντας το μέγεθος του πεδίου εισαγωγής τιμής και κεντράρισμα */
         input[type="number"] {
             width: 66%; /* 2/3 του πλάτους */
-            padding: 15px;
-            font-size: 18px;
+            padding: 10px;
+            font-size: 16px;
             margin-top: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
