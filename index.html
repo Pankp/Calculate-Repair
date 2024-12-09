@@ -50,8 +50,8 @@
             background-color: #444; /* Default background color */
         }
         .option img {
-            width: 35px; /* Εικονίδια 35px */
-            height: 35px;
+            width: 25px; /* Εικονίδια 25px */
+            height: 25px;
             margin-bottom: 8px;
         }
         .option.selected {
@@ -100,10 +100,10 @@
 </head>
 <body>
 
-    <h1>Υπολογισμός Κόστους Επισκευής</h1>
+    <h1>Υπολογιστής Κόστους Επισκευής</h1>
     <div class="container">
         <label for="price">Τιμή Ανταλλακτικού (χωρίς ΦΠΑ):</label>
-        <input type="number" id="price" placeholder="Εισάγετε τιμή Χωρίς ΦΠΑ" oninput="calculateCost()" inputmode="numeric" pattern="[0-9]*">
+        <input type="number" id="price" placeholder="Εισάγετε τιμή" oninput="calculateCost()" inputmode="numeric" pattern="[0-9]*">
         
         <!-- Flexbox για τις επιλογές -->
         <div class="options">
@@ -159,14 +159,20 @@
         function calculateCost() {
             const priceInput = document.getElementById('price').value;
             
-            if (priceInput && selectedRepairValue) {
+            if (priceInput) {
+                // Υπολογισμός τιμής με ΦΠΑ
                 const priceWithoutVAT = parseFloat(priceInput);
-                const priceWithVAT = priceWithoutVAT * 1.24;
-                const totalPrice = priceWithVAT + selectedRepairValue;
-                const roundedPrice = Math.ceil(totalPrice / 5) * 5;
+                const priceWithVAT = priceWithoutVAT * 1.24; // τιμή με ΦΠΑ 24%
 
-                document.getElementById('totalPrice').innerText = roundedPrice.toFixed(2);
-                document.getElementById('finalCost').innerText = `Τελική Τιμή: ${roundedPrice.toFixed(2)}€`;
+                // Ενημέρωση της τιμής με ΦΠΑ στο πεδίο
+                document.getElementById('totalPrice').innerText = priceWithVAT.toFixed(2);
+
+                if (selectedRepairValue) {
+                    const totalPrice = priceWithVAT + selectedRepairValue; // Δεν προστίθεται ΦΠΑ στις υπηρεσίες
+                    const roundedPrice = Math.ceil(totalPrice / 5) * 5;
+
+                    document.getElementById('finalCost').innerText = `Τελική Τιμή: ${roundedPrice.toFixed(2)}€`;
+                }
             }
         }
 
