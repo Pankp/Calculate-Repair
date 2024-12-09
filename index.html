@@ -103,7 +103,7 @@
     <h1>Υπολογιστής Κόστους Επισκευής</h1>
     <div class="container">
         <label for="price">Τιμή Ανταλλακτικού (χωρίς ΦΠΑ):</label>
-        <input type="number" id="price" placeholder="Εισάγετε τιμή" oninput="calculateCost()">
+        <input type="number" id="price" placeholder="Εισάγετε τιμή" oninput="calculateCost()" inputmode="numeric" pattern="[0-9]*">
         
         <!-- Flexbox για τις επιλογές -->
         <div class="options">
